@@ -47,11 +47,8 @@ public:
         }
         cout << "\n";
         time_t startTimeSeconds = time(NULL);
-        while(time(NULL) - startTimeSeconds < 60 && attempt[0] != 'E'){
+        while(time(NULL) - startTimeSeconds < 60){
             cin >> attempt;
-            if(time(NULL) - startTimeSeconds > 60){
-                break;
-            }
             //word invalid
             if (valid_words.find(attempt) == valid_words.end()){
                 cout << attempt << " is not a valid word!";
