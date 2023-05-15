@@ -152,7 +152,7 @@ private:
 
 void initialize_dictionary(){
     ifstream infile;
-    infile.open("wordlist.txt");
+    infile.open("words_alpha.txt");
     assert(infile.is_open());
     string word;
     while(infile >> word){
