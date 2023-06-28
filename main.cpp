@@ -93,10 +93,7 @@ public:
                 cout << ", time used: 0:0" << time(NULL) - startTimeSeconds << "\n";
         }
         cout << "You scored a total of " << score << " points!\n";
-        cout << "Longest words: ";
-        for (string word : longest_words){
-            cout << word << "\n";
-        }
+        cout << "The longest word was: " << unscrambled << "\n";
         cout << "See all valid words? [yes/no]\n";
         cin >> attempt;
         if(attempt == "yes"){
@@ -129,13 +126,11 @@ private:
     unordered_set<string> valid_words;
     unordered_set<string> used;
     string unscrambled;
-    vector<string> longest_words;
     string choose_word(){
         srand((unsigned)time(NULL));
         unsigned random = (unsigned)rand() % six_letter_words.size();
         unscrambled = six_letter_words[random];
         string chosen = unscrambled;
-        longest_words.push_back(unscrambled);
         uint32_t seed = static_cast <uint32_t> (chrono::system_clock::now().time_since_epoch().count());
         shuffle(chosen.begin(),chosen.end(), std::default_random_engine(seed));
         return chosen;
@@ -145,7 +140,6 @@ private:
         if (all_words.find(add) != all_words.end() && permLength > 2) {
             valid_words.insert(add);
             if(permLength == 6) //max length
-                longest_words.push_back(add);
                 return;
         }  // if ..valid word found
         for (size_t i = permLength; i < word.size(); ++i) {
@@ -162,7 +156,7 @@ void initialize_dictionary(){
     assert(infile.is_open());
     string word;
     while(infile >> word){
-        if(word.length() > 2 && word.length() < 7)
+        if(word.length() > 2)
             all_words.insert(word);
         if(word.length() == 6){
             six_letter_words.push_back(word);
