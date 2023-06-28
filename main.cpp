@@ -92,8 +92,14 @@ public:
             else
                 cout << ", time used: 0:0" << time(NULL) - startTimeSeconds << "\n";
         }
+        cout << "\n";
         cout << "You scored a total of " << score << " points!\n";
-        cout << "The longest word was: " << unscrambled << "\n";
+        cout << "\n";
+        cout << "Longest words:\n";
+        for (auto word : longest_words) {
+            cout << word << " ";
+        }
+        cout << "\n";
         cout << "See all valid words? [yes/no]\n";
         cin >> attempt;
         if(attempt == "yes"){
@@ -126,10 +132,12 @@ private:
     unordered_set<string> valid_words;
     unordered_set<string> used;
     string unscrambled;
+    unordered_set<string> longest_words;
     string choose_word(){
         srand((unsigned)time(NULL));
         unsigned random = (unsigned)rand() % six_letter_words.size();
         unscrambled = six_letter_words[random];
+        longest_words.insert(unscrambled);
         string chosen = unscrambled;
         uint32_t seed = static_cast <uint32_t> (chrono::system_clock::now().time_since_epoch().count());
         shuffle(chosen.begin(),chosen.end(), std::default_random_engine(seed));
@@ -139,8 +147,10 @@ private:
         string add = word.substr(0, permLength);
         if (all_words.find(add) != all_words.end() && permLength > 2) {
             valid_words.insert(add);
-            if(permLength == 6) //max length
+            if(permLength == 6){
+                longest_words.insert(add);
                 return;
+            }
         }  // if ..valid word found
         for (size_t i = permLength; i < word.size(); ++i) {
             swap(word[permLength], word[i]);
