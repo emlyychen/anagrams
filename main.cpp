@@ -49,6 +49,7 @@ public:
         time_t startTimeSeconds = time(NULL);
         while(time(NULL) - startTimeSeconds < 60){
             cin >> attempt;
+            attempt = to_lowercase(attempt);
             //word invalid
             if (valid_words.find(attempt) == valid_words.end()){
                 cout << attempt << " is not a valid word!";
@@ -158,7 +159,13 @@ private:
             swap(word[permLength], word[i]);
         }  // for ..unpermuted elements
     }
+    string to_lowercase(string input) {
+    std::string output = input;
+    std::transform(output.begin(), output.end(), output.begin(), ::tolower);
+    return output;
+}
 };
+
 
 void initialize_dictionary(){
     ifstream infile;
@@ -174,6 +181,7 @@ void initialize_dictionary(){
     }
 }
 
+
 int main() {
     ios_base::sync_with_stdio(false);
     cout << "Loading dictionary...\n";
@@ -183,16 +191,22 @@ int main() {
     do{
         Anagrams a;
         cin >> cmd;
+        if(cmd[0] == 'P' || cmd[0] == 'p'){
+
+        }
         switch(cmd[0]){
+            case 'p':
             case 'P':
                 a.play();
                 cout << "To play again: [PLAY]\n";
                 cout << "To quit: [QUIT]\n";
                 cout << "For more help: [HELP]\n";
                 break;
+            case 'q':
             case 'Q':
                 cout << "Thanks for playing Anagrams!\n";
-                break;
+                return 0;
+            case 'h':
             case 'H':
                 cout << "Type as many words as you can with the 6 letters given!\n";
                 cout << "3 letters: 100 points\n";
